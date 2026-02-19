@@ -22,7 +22,7 @@
             background: linear-gradient(135deg, #fdf1e4 0%, #f3e0d8 100%);
             font-family: 'Lora', serif;
             color: #4a3b32;
-            overflow: hidden;
+            overflow: hidden; /* Ngăn cuộn trang web lớn */
         }
 
         #overlay {
@@ -35,6 +35,18 @@
             align-items: center;
             z-index: 9999;
             transition: opacity 1s ease, visibility 1s;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .warning-text {
+            max-width: 400px;
+            text-align: center;
+            font-size: 15px;
+            color: #7a6a61;
+            margin-bottom: 25px;
+            font-style: italic;
+            line-height: 1.6;
         }
 
         .open-btn {
@@ -58,7 +70,7 @@
         .card-container {
             padding: 20px;
             width: 100%;
-            max-width: 500px;
+            max-width: 800px;
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 1.5s ease 0.5s, transform 1.5s ease 0.5s;
@@ -67,7 +79,7 @@
         .card {
             background-color: #fcfaf8;
             border-radius: 12px;
-            padding: 40px 30px;
+            padding: 40px 30px 30px 30px;
             box-shadow: 0 15px 35px rgba(138, 115, 102, 0.15);
             text-align: center;
             position: relative;
@@ -86,8 +98,8 @@
             font-family: 'Playfair Display', serif;
             font-size: 28px;
             color: #b06d51;
-            margin-top: 10px;
-            margin-bottom: 25px;
+            margin-top: 5px;
+            margin-bottom: 20px;
             letter-spacing: 0.5px;
         }
 
@@ -95,13 +107,84 @@
             font-size: 16px;
             line-height: 1.8;
             text-align: left;
-            margin-bottom: 30px;
             color: #5c4d44;
-            padding: 0 10px;
+            padding: 0 15px 0 10px;
+            min-height: 200px;
+            max-height: 350px;
+            overflow-y: auto;
+            scroll-behavior: smooth; /* Thêm cuộn mượt */
         }
 
-        .card-content p {
+        /* Tùy chỉnh thanh cuộn cho thanh lịch, không bị thô */
+        .card-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .card-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .card-content::-webkit-scrollbar-thumb {
+            background-color: rgba(176, 109, 81, 0.3);
+            border-radius: 10px;
+        }
+        .card-content::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(176, 109, 81, 0.6);
+        }
+
+        /* --- CSS cho từng trang --- */
+        .page {
+            display: none;
+            animation: fadeInPage 0.6s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page p {
             margin-bottom: 15px;
+        }
+
+        /* --- CSS cho thanh điều hướng lật trang --- */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(176, 109, 81, 0.3);
+        }
+
+        .page-btn {
+            background: transparent;
+            border: none;
+            color: #b06d51;
+            font-family: 'Lora', serif;
+            font-size: 15px;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 5px 10px;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            color: #985b42;
+            font-weight: 600;
+        }
+
+        .page-btn:disabled {
+            color: #d8c3b8;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            font-size: 14px;
+            color: #7a6a61;
+            font-style: italic;
         }
 
         .card-signature {
@@ -121,6 +204,9 @@
 <body>
 
     <div id="overlay">
+        <div class="warning-text">
+            "Nội dung trong thư rất buồn, rất tiêu cực, mặc dù không phải lời trách móc, nhưng xin cậu hãy cân nhắc thật kĩ lưỡng trước khi mở."
+        </div>
         <button class="open-btn" onclick="openCard()">Mở thiệp</button>
     </div>
 
@@ -130,20 +216,95 @@
 
     <div class="card-container" id="myCard">
         <div class="card">
-            <h1 class="card-title">Gửi cậu,</h1>
+            <h1 class="card-title">Gửi Gia Bảo,</h1>
+            
             <div class="card-content">
-                <p>Cậu có thể thay thế đoạn văn bản này bằng những lời mà cậu muốn gửi gắm. Tấm thiệp này được thiết kế với tone màu ấm áp để mang lại cảm giác bình yên.</p>
-                <p>Đừng quên bật âm thanh để lắng nghe giai điệu này nhé. Chúc cậu một ngày thật nhiều niềm vui và sự dịu dàng.</p>
+                <div class="page active">
+                    <p>Trước tiên, bật âm thanh lên để nghe nhạc nhé, tránh việc đọc thư trở nên nhàm chán quá.</p>
+                    <p>Mình đã nghĩ đi nghĩ lại rất nhiều lần, rất nhiều lần mình quyết định nuốt những tâm sự này xuống và chôn nó dưới tận đáy lòng mình, nhưng cuối cùng mình vẫn không đủ mạnh mẽ để làm vậy. Vì vậy, nên tấm thiệp này mới ra đời.</p>
+                    <p>Mình muốn cảnh báo lại một lần nữa, tấm thiệp này không phải là để chữa lành, tấm thiệp này chất chứa hành trình cảm xúc của bản thân mình trong 1 năm qua. Vậy nên, hãy cân nhắc thêm một lần nữa trước khi đọc tiếp nhé.</p>
+                </div>
+
+                <div class="page">
+                    <p>Đoạn văn tiếp theo này, mình sẽ kể về hành trình mình trải qua, chỉ tự sự thôi, nên cậu vẫn có thể đọc tiếp, chưa có gì đâu</p>
+                    <p>Sau khi cậu đi, mình đã có rất nhiều câu hỏi, nhưng cuộc sống ngay lúc đó của mình không cho phép mình có thời gian làm điều đó. Ngay sau khi cậu đi, nhà của mình bắt đầu sửa lại, vậy nên mình về nội ở nửa năm. Mặc dù không cô đơn giống như cậu ở Úc, nhưng cũng đủ để mình cảm nhận được một ít trạng thái của cậu khi ở xứ người, cũng như có thời gian để suy nghĩ về những điều mình đã trải qua. Nhưng mình không có thời gian để làm vậy, vì đồ án tốt nghiệp đã dí sát.</p>
+                    <p>Từ tháng 5 đến hết tháng 6, 60 ngày của mình như 1: mở mắt, đi làm, về trọ của mẹ để ăn ké bữa tối, về nội, lên phòng làm đồ án, đi ngủ. Thành quả cuối cùng mặc dù không xuất sắc như mình kỳ vọng, nhưng cũng không tệ, mình khá tự hào về những gì mình làm được. À quên mất, trong 60 ngày này mình cũng kịp thi và có bằng lái xe rồi, chỉ chưa biết khi nào mình sẽ có chiếc xe của riêng mình.</p>
+                    <p>Sau khi kết thúc đồ án tốt nghiệp, mình lại "vô tình" có cơ hội bước lên 1 hành trình mới, nếu cậu có check facebook của mình thì chắc cũng có thấy. Mình đăng ký 1 bootcamp, gọi là GStar. Online thôi, nhưng mình đã học rất nhiều, và gặp rất nhiều điều thú vị, nhiều người giỏi giang ở đây. Hành trình này của mình chỉ mới kết thúc vào tháng 12 đây thôi, và mình cũng đạt được một số kết quả cũng đủ khiến mình tự hào ở bootcamp này.</p>
+                    <p>Trong thời gian tham gia bootcamp, mình cũng trở thành nhân viên chính thức ở công ty hiện tại, và cũng kịp đi du lịch đến Quảng Bình và Ninh Bình. Sau khi pass thử việc, 1 chị trong team của mình nghỉ sinh, vì vậy mình ôm 2 dự án của chị khi trước. Không quá nặng, vẫn vừa sức mình, nên mình cũng học hỏi được khá nhiều. Nhưng sắp tới mình sẽ nghỉ việc ở đây, và qua công ty Nhật khi xưa mời mình qua intern. Bây giờ thì công ty kia có mở office ở Đà Nẵng rồi nên mình vẫn sẽ ở đây một thời gian nữa, trước khi mình có những dự định lớn tiếp theo.</p>
+                    <p>Tóm tắt lại để dễ nhớ một chút, thì trong năm 2025, mình đã tốt nghiệp, có việc fulltime, tham gia 1 bootcamp rất thú vị, có 2 chuyến du lịch, và quan trọng nhất là, nhà mình sửa xong rồi. Lần đầu tiên trong cuộc đời mình đã có phòng riêng, để có thể làm những gì mình muốn mà không bị mẹ hay bà ngoại làm phiền.</p>
+                </div>
+
+                <div class="page">
+                    <p>Mình có rất nhiều câu hỏi tại sao, và cũng có rất nhiều nỗi uất ức. Đương nhiên mình biết cậu cũng có, nhưng mà trong tấm thiệp này mình sẽ chỉ nói về mình thôi, xin phép ích kỷ chút nhé. À nhưng mà cậu không cần trả lời những câu hỏi này đâu, mình cũng không cần đến nó nữa, nên cậu chỉ cần đọc thôi là được.</p>
+                    <p>Câu hỏi đầu tiên, mình đã nghĩ rốt cuộc lí do chia tay thực sự là gì nhỉ? Cậu có nói là cậu không muốn trở thành gánh nặng của mình, cậu đau đớn khi nghe mình nói rằng "Anh có thể hạnh phúc với chính mình, nhưng với em thì không thể" nên cậu rời đi. Okay thôi, hợp lí mà, làm gì có ai lại muốn trở thành gánh nặng của nửa kia trong 1 mối quan hệ chứ đúng không? Nhưng mình nghĩ thêm một chút nữa, liệu đó có phải là tất cả không? Vì cậu cũng nói là cậu cảm thấy như đang đánh mất chính bản thân cậu trong mối quan hệ này, vậy nên rời đi là cách cậu bảo vệ bản thân của cậu, và có lẽ cũng là của mình nữa nhỉ? Khi mình nghĩ đến 2 lí do này thì mình cũng cảm thấy okay hợp lý thôi, mình không lăn tăn gì về câu hỏi đầu tiên này nữa. Nhưng mà hiểu là một chuyện, còn cảm thấy thế nào là một chuyện khác.</p>
+                    <p>Xin lỗi vì sau đây mình không viết hoa tên riêng nhé, vì mình cảm thấy không có việc gì phải tôn trọng 2 cái tên này. Về thịnh võ nhỉ, cậu bảo mối quan hệ này có cả những niềm vui và nỗi buồn, người ta cũng có lúc tốt, và cũng có lúc không tốt với cậu, nhưng mình nhớ rõ là cũng có nhiều lần họ đã làm cậu phải phiền lòng nhiều về những người con gái khác khi còn ở trong mối quan hệ với cậu nhỉ, nhưng cậu vẫn chọn tiếp tục, để rồi đến khi người ta phải cầu xin cậu hãy rời đi đi, hình như lúc đó cậu mới đi đúng không nhỉ, hoặc là tới lúc đó cậu vẫn không chịu rời đi, nhưng mà cũng không quan trọng lắm, khi mình nghĩ tới đây thì mình chỉ hơi cảm thán chút thôi, cậu đã từng có thể vì níu kéo một người mà làm đến mức đấy nhỉ?</p>
+                    <p>Sang mối quan hệ tiếp theo sau đó của cậu, mình không muốn nhắc đến tên của người này đâu, và cũng chả muốn nghĩ tới nhưng mà mình không kiểm soát suy nghĩ của mình được. Từ trước khi quen cậu thì người ta đã lợi dụng lúc cậu say để quấy rối tình dục, và khi quen cậu thì làm những gì thì mình cũng chả muốn đề cập thêm nữa, mình và cậu đã tốn quá nhiều công sức về những câu chuyện này rồi, nhưng mà cho dù làm những điều như vậy, cậu vẫn chọn tiếp tục mối quan hệ đấy nhỉ. Ừ thì cậu nói là cậu muốn sửa mối quan hệ đó từ sai thành đúng, nên chỉ tới khi đi Đà Lạt về, khi hoàn toàn nhận ra được mối quan hệ vốn dĩ đã sai từ đầu này không thể nào trở nên đúng được thì cậu mới dừng lại.</p>
+                    <p>Uh, nghĩ tới đây khiến mình tự hỏi, có khi nào cậu cũng cảm thấy mối quan hệ của mình và cậu cũng chẳng thể nào có tương lai nên cậu mới chọn dừng lại không nhỉ. Mặc dù thật sự rất không muốn, nhưng những dòng suy nghĩ trong mình cứ vô thức so sánh. Rốt cuộc mình đã đối xử tệ bạc với cậu đến mức nào, để khiến cậu thà cô đơn ở nơi đất khách, còn hơn là chọn tiếp tục với mình nhỉ, trong khi cậu từng chọn tiếp tục với những mối quan hệ cũ vốn dĩ cũng chất chứa đầy những điều bất ổn thế kia mà? Suy nghĩ đó bám theo mình một thời gian, từng có lúc mình nghĩ hay là bản thân mình tệ hơn những người cũ của cậu thật sao, nhưng mà cũng không dài, mình biết mình là ai, người yêu cũ của cậu lấy cái gì ra để so được với mình? Nhưng mà cuối cùng thì mình mới là người bị bỏ lại nhỉ.</p>
+                    <p>Đọc tới đây có lẽ cậu sẽ nghĩ, "Thế anh có nghĩ tới lúc anh nói chia tay em, trong 3 tháng đó em đã phải trải qua những gì không?". Ừm, mình không phủ nhận là lúc nói chia tay vào tháng 9 năm 2024, lí do duy nhất chính là mình chỉ muốn giải thoát cho chính bản thân của mình thôi. Mình của lúc đó đã quá mệt mỏi khi phải chịu đựng những điều tiêu cực trong mối quan hệ của 2 đứa mình, nên mình chọn rời đi, và chưa từng nghĩ tới việc sẽ quay đầu lại. Nhưng mà, rốt cuộc thì cậu vẫn mạnh mẽ hơn mình rất nhiều, 3 tháng đó ở nơi xứ người, cậu vẫn xoay sở được, và đủ can đảm để tìm lại mình một lần nữa.</p>
+                    <p>Lúc đó, vào ngày 2/1/2025 khi mà cậu gửi cho mình xem những dòng tâm sự của cậu khi ở Úc, mình đã nghĩ đây là phép màu, vậy nên mình đã chọn tiếp tục lại với cậu một lần nữa, và lần này mình nghĩ mình sẽ làm được. Nhưng mà, mình đã quá ngây thơ rồi, mình cứ nghĩ sau khi chia tay cậu vào năm 2024 đó, bước sang 2025, mình vẫn là mình, nhưng mình đã sai. Mình của 2025, đã không phải là mình của 2024. Có lẽ cậu cũng nhận ra. Mình nhạy cảm hơn, dễ tổn thương hơn, tiêu cực hơn, nhưng cũng yêu cậu nhiều hơn, thật sự đấy. Nhưng có lẽ tình yêu là không đủ nhỉ, vì thực ra cậu biết không, nội tâm của tớ yếu đuối hơn cậu nghĩ rất nhiều.</p>
+                    <p>8 tháng đầu tiên khi bọn mình quen nhau, để có thể luôn vững vàng và luôn dịu dàng khi mà cậu cáu gắt với mình, thực sự rất là khó khăn đấy. Chỉ dạo gần đây thôi mình mới nhận ra được vốn dĩ bản thân mình không hề mạnh mẽ như mình vẫn nghĩ. Mình có những tổn thương ngầm mà trước giờ mình chưa từng nhận thấy từ gia đình của mình. Nhưng mà mình không nói những điều này để đổ lỗi đâu, không liên quan gì hết. Mẹ của mình là một người rất nóng tính, từ nhỏ mình vốn dĩ đã lớn lên trong rất nhiều sự la rầy, quát tháo. Bây giờ mình quen rồi nên mẹ có la cũng chẳng sao nữa, nhưng gần đây, mỗi khi mình thấy mẹ khen em mình mỗi khi Sol làm được một cái gì đó, mình vô thức tự hỏi, đã bao giờ mẹ khen mình chưa nhỉ? Rồi dần dần mình mới hiểu ra, hóa ra đó cũng là một lí do tại sao khiến mình lại khao khát sự dịu dàng và bình yên trong 1 mối quan hệ, cũng như tại sao mình lại ghét bị la mắng, bị cáu gắt đến như vậy.</p>
+                    <p>Đương nhiên mình không trách mẹ mình đâu, mình vẫn yêu mẹ lắm, chỉ là giải thích một chút với cậu thôi. Từ sau lần đổ vỡ đầu tiên, không chỉ một mình cậu tan vỡ đâu, mình cũng thế, và sự tan vỡ này vô tình khuếch đại hơn những vết thương mà trước giờ mình vốn dĩ chôn chặt dưới đáy lòng, và khi mình vội vàng bước lại vào mối quan hệ với cậu mà chưa kịp nhận ra sự vụn vỡ này của bản thân, kết quả là, 2 đứa mình lại tan vỡ một lần nữa.</p>
+                </div>
+
+                <div class="page">
+                    <p>Nhưng mà, để nói mình có hối tiếc điều gì khi ở trong mối quan hệ với cậu không, thì câu trả lời là không, mình thực sự đã làm hết tất cả những gì mình có thể. Mối quan hệ của 2 đứa mình, mình đã cược tất cả những gì mình có lúc đó lên bàn, và đã thua, thua vô cùng đau đớn, nhưng ít ra không phải là thua trắng, mình vẫn học được rất nhiều từ nó. Mình nghĩ cậu cũng vậy nhỉ. Mình biết cậu cũng đã âm thầm làm rất nhiều điều vì mình mà không nói ra. Nhưng rốt cuộc thì chia ly vẫn là kết quả cuối cùng.</p>
+                    <p>Cậu vẫn hay hỏi mình, tại sao kế hoạch tương lai của mình không có cậu, rốt cuộc mình có hướng về cậu không? Haha, lúc đó mình không hướng về cậu thì hướng về ai nữa chứ. Nhưng mà cậu không nghĩ vậy nhỉ, vì cậu nói là, cái việc tớ bận rộn với công việc và học tập như vậy, vốn dĩ cũng là tốt cho bản thân, là vì chính mình thôi mà, có liên quan gì tới tương lai 2 đứa đâu nhỉ. Lúc nghe câu này mình đã thật sự rất tuyệt vọng đấy. Cậu vốn biết rõ hơn ai hết khoảng cách giữa 2 gia đình của mình và cậu mà đúng không.</p>
+                    <p>Cậu biết không, khi còn làm bạn, mỗi lần bước qua cánh cổng nhà cậu, mình lại chả cảm thấy gì cả. Nhưng từ sau hôm 11/1/2024, mỗi lần đứng trước nhà cậu là một lần mình lại tự phải động viên chính mình. Mình có thể làm được gì đây, cứ giả sử như gia đình của cậu không quan tâm, bản thân cậu không quan tâm thì mình vẫn để tâm, và xã hội này cũng để tâm đấy. Nhưng không phải vì vậy mà mình tự ti, mình chỉ lo, là nếu như sau này về chung một nhà, mà mình lại không cho được cậu những gì gia đình cậu có thể, thì mình có xứng đáng với niềm tin của cậu không đây? Vậy nên mình chẳng biết phải làm gì ngoài việc lao đầu vào nắm bắt từng cơ hội nhỏ mà mình có, đi từng bước để xây dựng nên một phiên bản tốt hơn của chính bản thân mình, một phiên bản mà mình có thể đủ tự tin, để ngẩng cao đầu và sang thưa chuyện với ba mẹ cậu, rằng mình đủ vững chãi để trở thành chỗ dựa cho phần đời còn lại của cậu.</p>
+                    <p>Nhưng cho dù vậy đi nữa, mỗi khi mình tự hỏi chính mình, mình cũng thấy bản thân mình cũng đâu có để cho cậu phải cô đơn trong mối quan hệ của chúng mình đâu nhỉ. Mỗi khi mình đi làm về, khi mình mở máy lên tiếp tục với ước mơ của mình, thì màn hình bên trái của tớ luôn có cậu đang ngồi đó. Chưa từng có lúc nào mình để cậu phải tự hỏi, "Thằng này biến đi đâu lâu thế rồi mà chả thấy trả lời mình", mình có đủ tự tin để khẳng định điều đó. Vì sao, vì mình biết cậu cũng rất cô độc khi ở bên kia mà. Thực sự là mình đã cảm thấy mình đã làm rất tốt việc cân bằng giữa công việc và mối quan hệ, vậy mà sao cậu lại nỡ lòng nói là mình làm nhiều như thế, chỉ là để tốt cho bản thân mình chứ.</p>
+                    <p>Giả sử như, 10 năm sau, khi về thăm họ hàng hay ra đường giới thiệu, "Dạ đây là chồng con, đang làm ở Google" (giả sử thôi, vì Google là ước mơ của mình), thì cậu cũng sẽ tự hào hơn mà đúng không. Có thể cậu sẽ nghĩ là, không cần đến Google, hay không cần cao sang gì, cậu vẫn tự hào về mình, nhưng mà cái tôi của mình không cho phép mình chỉ là một người bình thường khi đứng bên cậu. Mình muốn người khác phải ngưỡng mộ cậu, không chỉ vì bản thân cậu, mà còn vì cậu đã kiếm được một người chồng tuyệt vời.</p>
+                    <p>Còn một lí do cuối cùng, tại sao mình lại phải thật nỗ lực. Mồng 2 Tết năm ngoái, hay mồng 4 gì đó không nhớ rõ nữa, ngày mà bà nội cậu lì xì mình 500k ấy. Mình sang đón cậu và gặp bà, bà bảo mình vào nhà ngồi chơi, rồi ngồi nói chuyện với cả mẹ của cậu nữa nhỉ. Đương nhiên khi mà rơi vào tình huống bất ngờ như vậy, mình còn chả kịp chuẩn bị quà cáp gì là đã thấy ngượng rồi, thì càng khỏi nói đến việc tiếp chuyện mẹ và bà cậu, đầu óc mình đã rối điên lên rồi, cho đến khi mẹ cậu vô tình, mà cũng không biết có phải vô tình hay không nữa, hỏi tuổi của mẹ mình. Cô hỏi mẹ mình sinh năm bao nhiêu, mình đáp là dạ 1977, cô bảo là thế thì mẹ mình còn trẻ nhỉ, có mình lúc cũng còn trẻ. Mình cũng chẳng nghĩ ngợi gì nhiều, cho đến khi mẹ nói câu tiếp theo. "Cô thấy mấy đứa trẻ bây giờ nhiều người mới ra trường, việc làm còn chưa ổn định đã va vào nhau, kết hôn sớm rồi chẳng đâu vào đâu". Chắc cậu sẽ nghĩ mẹ chỉ nói bâng quơ vậy thôi, nhưng thực sự mình đã suy nghĩ rất rất rất nhiều về câu nói ấy.</p>
+                    <p>Tại sao ư, tại vì mình chính là người "mới ra trường, việc làm còn chưa ổn định" mà đã trở thành người yêu của cậu rồi, thật sự thì khó để mà mình tin rằng câu nói của cô chỉ là sự trùng hợp vô tình. Mà mình nghĩ không chỉ riêng mình, mà bất cứ thằng con trai nào nghe câu đó xong mà không về suy nghĩ và nỗ lực nhiều hơn nữa thì chắc chắn thằng đó không hề nghiêm túc với câu chuyện tình cảm ấy. Vậy nên khi nghe cậu nói câu nói đó ra, thực sự lúc đó mình đã rất buồn.</p>
+                </div>
+
+                <div class="page">
+                    <p>Một lần nọ, khi tụi mình cãi nhau, cậu đã bảo với mình rằng, mình cứ nghĩ mình là bác sĩ đến để chữa lành cho bệnh nhân là cậu, nhưng thật ra cậu lại cảm thấy rằng, mình giống như người đồng hành, quan sát cậu trên hành trình tự chữa lành của cậu thì đúng hơn, vì những vết thương là của cậu tự gây ra cho bản thân, nên không ai có thể chữa lành cho cậu ngoài cậu hết. Ha, cậu nói cũng có lý, mình không phủ nhận được.</p>
+                    <p>Nhưng mà cậu ơi, đâu phải là tự mình nghĩ rằng mình là bác sĩ đâu. Thực ra trước đây, lúc lướt TikTok có một lần mình thấy cậu reup 1 bài post, nội dung cụ thể mình không nhớ, nhưng đại khái là "cám ơn ba mẹ của anh đã nuôi dạy một người con trai dịu dàng, đang âm thầm chữa lành cho con gái của một gia đình khác". Sau đó mình có vào wall của cậu để xem lại thì lại không thấy bài reup đó nữa, mình cũng không biết vì sao. Nhưng mà từ sau giây phút ấy, mình mới bắt đầu có suy nghĩ mình là người chữa lành.</p>
+                    <p>Ừ thì, mình không nói rằng mình làm hết mọi thứ, nhưng mà cậu ơi, kể cả chỉ là đồng hành và quan sát cậu trên con đường cậu tự chữa lành đi chăng nữa, thì thật sự mình cũng đã phải nuốt xuống rất rất rất là nhiều thứ thì mới có thể đứng đó và quan sát cậu được mà. Sau giây phút nghe câu nói ấy, mình mới thật sự hoài nghi về tình yêu của 2 đứa mình.</p>
+                    <p>Tại sao ư, tại vì sự công nhận của cậu là tất cả những gì mình có. Con đường để khiến ba mẹ cậu tin tưởng mình có thể rất rất dài, nhưng chỉ cần có sự công nhận của cậu, mình luôn vững tin là mình có thể làm được. Nhưng mà sau câu nói của cậu, lần đầu tiên trong mối quan hệ, mình cảm giác mình không hề có bất cứ thứ gì cả, đến ngay cả sự công nhận của cậu, mình cũng đánh mất luôn rồi, thì bây giờ mình phải lấy gì để làm động lực tiếp tục bước đi đây. Từ sau ngày hôm đó, mình không nhớ là mình đã cảm thấy như thế nào nữa, kiểu như lúc đó mọi thứ không còn ý nghĩa với mình lắm rồi, mình cố được đến đâu nữa thì cố vậy, và sau đó mối quan hệ của tụi mình kết thúc nhanh hơn mình nghĩ. Lần đầu tiên mình cố gắng níu kéo một người, nhưng có lẽ lúc đó mọi thứ đã quá muộn rồi.</p>
+                </div>
+
+                <div class="page">
+                    <p>Lúc đọc email của cậu gửi, mình thấy có vẻ như cậu nghĩ rằng lí do chúng mình kết thúc chỉ xoay quanh câu chuyện kia. Ừm, nó là một phần, nhưng không phải là tất cả, chắc khoảng một phần ba ha. Mình block cậu vì mình sẽ yếu lòng nếu như lại thấy cậu trên mạng xã hội, và mình thì ghét sự yếu đuối của bản thân. Mình đã làm rất tốt việc giữ nội tâm mình vững vàng, cho đến khi nghe tin cậu tặng mình chiếc đồng hồ. Thực sự thì, đó cũng là một nguyên nhân khiến mình chọn không muốn gặp cậu nữa.</p>
+                    <p>Cậu nói cậu đã khóc suốt 1 tháng, đêm nào cũng khóc sau khi tắt call, trước khi tụi mình chia tay. Cậu nói là có lẽ mình đã nhận ra. Ha, hóa ra cậu nghĩ mình là người sẽ bỏ mặc cậu cứ vậy mà khóc sao chứ. Mình không hề nhận ra, làm sao mình có thể nhận ra đêm nào cậu cũng khóc sau khi tắt call được chứ, vừa mở mắt sáng ra là đi làm, rồi đến tận tối mới gặp lại nhau được, còn là qua màn hình, nếu cậu nói mình không đủ quan tâm cậu nên mới không nhận ra thì mình cũng chấp nhận thôi, nhưng thật sự thì, mình không hề biết cậu đã khóc nhiều như vậy. Nếu biết, mình đã không để im như vậy rồi.</p>
+                    <p>Và hè này, cậu lại tặng mình một món quà một cách gián tiếp nhỉ. Mình từng dặn cậu, nếu như còn cần phải làm như vậy, thì hãy nhờ Nhật Huy nhé, nó là người sẽ đảm bảo món quà chắc chắn sẽ đến tay mình, dù mình có đang ở đâu đi chăng nữa. Mình đã từng nói cậu rằng Nhật là người không đáng tin, thậm chí chính cậu còn là người cảnh báo mình về việc nên cẩn thận nó, nhưng cả 2 lần, hộp bánh chất xơ hay gì gì đó màu xanh lá cây, cả cái đồng hồ. Đến bây giờ mình vẫn không nhìn thấy nó, nhưng thôi mình nhận được tấm lòng của cậu rồi. Chuyện nghe chẳng có gì to tát nhỉ, cậu tặng quà mình, quà không đến tay mình, thì mắc gì mình lại thất vọng và giận? Ừm lúc đầu mình cũng nghĩ vậy, nhưng mà tiềm thức mình lại vô tình gắn kết một vài chi tiết về câu chuyện cũ của 2 đứa mình.</p>
+                    <p>Mình đã nghĩ, "anh đã dặn em rồi mà nhỉ, tại sao em lại không để tâm đến lời nói của anh vậy". Ừm coi như cậu ngại khi nói với thằng Huy, thì cậu cũng từng nói chuyện, thậm chí là gặp Tuân rồi mà. Bất cứ ai trong đám bạn cấp 2 của mình cũng đáng tin hơn thằng Nhật, ít nhất là trong chuyện đảm bảo món quà sẽ đến tay mình. Món quà đó cậu nói là cậu đã đặt rất nhiều công sức vào nhỉ, vậy mà khi thằng Nhật làm mất, khi nó nói là nó đặt vào cặp mình rồi còn mình làm gì tiếp thì không biết, phản ứng đầu tiên của cậu, không phải là chất vấn nó, mà là, "thằng chó thiên anh". Mình tự hỏi mình có xứng đáng phải nghe cái điều đó không.</p>
+                    <p>Bỏ qua những hành động mờ ám của thằng Nhật khi cậu nhờ nó chuyển quà đi, không còn quan trọng nữa, vì lúc đó mình chỉ thấy, tủi thân, với thái độ của cậu lúc đó. Khi người khác sai với cậu, con Ngân, thằng Nhật, anh Sáng, mấy thằng bạn ở lớp Hóa, và rất nhiều người khác, cậu luôn chọn cách nhịn xuống và chịu đựng. Nhưng tại sao đến lượt mình, mình lại phải nghe những điều khó nghe từ cậu. Mình không muốn cậu cũng phải nhịn mình, mình muốn 2 đứa mình có thể nói chuyện một cách đàng hoàng và bình tĩnh nhưng lần nào cũng không thể. Mình lại càng không muốn cậu lại nhịn người khác, và nhịn người khác nhưng lại đổ lên mình những thứ khó nghe.</p>
+                    <p>Mình cũng biết tủi thân đấy. Đêm 31/12, cậu add lại facebook mình, mình bảo Thư xem thử cậu đang làm gì, có phải đang nhậu không, và ừm, cậu đang nhậu. Mình ghét việc người khác mượn bia rượu hay truth and dare để làm những điều bình thường không làm, đặc biệt là nếu chuyện đó có liên quan đến mình. Khi cậu về Đà Nẵng đợt này, nếu cậu hỏi thẳng mình có muốn gặp cậu từ đầu không, thay vì nhờ thằng Nhật, chắc chắn mình sẽ đi, vì sao, vì mình muốn gặp cậu, không thua gì việc cậu muốn gặp mình. Nhưng lại một lần nữa, nếu là mời gián tiếp, thì mình xin phép từ chối, và sẽ không đi nữa. Mình không phải đang quan trọng hóa bản thân hay quan trọng hóa vấn đề, mình chỉ là có những giới hạn của mình.</p>
+                    <p>Cậu nói cậu muốn tìm một người đàn ông luôn hướng về cậu, cậu nói mình không muốn ở bên cạnh cậu nhiều như cậu muốn ở bên cạnh mình, sao cậu có thể khẳng định như thế. Cậu nói cậu muốn người đàn ông làm mọi thứ để có thể ở bên cạnh cậu, nhưng khi tớ làm mọi cách tớ có thể, thì thứ tớ nhận lại là "người quan sát và đồng hành". Cậu nói cậu muốn một người đàn ông yêu cậu vô điều kiện, ừm, cái này thì mình thừa nhận mình không làm được. Có thể từ phía của mình, mình cảm thấy mình đã làm mọi thứ, nhưng với cậu thì đó là chưa đủ, chuyện này cũng bình thường, vì mỗi người tự có những quy chuẩn và thước đo riêng của bản thân.</p>
+                    <p>Nhưng mình có thể tự tin mà khẳng định rằng, mình không hề chừa lại cho bản thân bất kì một đường lùi nào khi yêu cậu. Đó cũng là lí do tại sao khi kết thúc rồi, mình lại dứt khoát đến như vậy. Đối với cậu, chừng nào mình còn cảm nhận được tình cảm của cậu thì chừng đó chúng ta còn trong mối quan hệ, nhưng với mình thì khác. Với mình, ở trong một mối quan hệ không chỉ có tình yêu, mà cả sự đồng hành và trách nhiệm. Vậy nên mình không cảm động trước những hành động của cậu sau chia tay, dù những việc đó thực sự rất xúc động, nhưng mình vẫn sẽ tôn trọng các hành động đó.</p>
+                    <p>Mình hy vọng sau này, cậu có thể gặp người khiến cậu đủ can đảm để nấu ăn cho người kia ngay khi chưa cưới. Mong người đó có thể nghe được những bản nhạc do chính tay cậu đàn. Cậu nói ước mơ của cậu là sáng nấu cơm mình mang đi làm, chiều về lại nấu ăn tối, cậu nói cậu chưa từng kể cho mình điều này, nhưng mình cũng chưa từng kể cho cậu nhỉ. Mình đã mơ, mơ rất nhiều lần được ăn cơm do cậu nấu. Mình đã cầu nguyện với ông Trời rằng hãy cho mình một người đồng hành thích nấu ăn và biết chơi đàn. Ông đã lắng nghe rồi, nhưng mà tiếc nhỉ, mình chưa kịp ăn bữa cơm nào của cậu nấu, cũng chưa kịp nghe bản nhạc nào cậu đàn thì tụi mình kết thúc rồi. Chắc cậu hơi ngạc nhiên, nhưng mà mình chỉ nghe cậu đàn trước khi tụi mình quen nhau thôi, sau đó thì không còn nữa.</p>
+                    <p>Thực sự, mình đã mơ rất nhiều về món ăn đầu tiên cậu nấu cho mình sẽ là gì, nhưng mà khi nghe cậu nói rằng cậu sợ mẹ, thì sao mình lại nỡ nói ra những điều này chứ. Giờ thì chuyện cũng kết thúc rồi, nên còn gì thì nói nốt vậy. Hồ Châu Kiệt Luân và Hồ Châu Thiên Kim sẽ không bao giờ xuất hiện trên cõi đời này nữa, nhưng mình sẽ luôn mang theo niềm tin và tình yêu mà mình đã đặt vào 2 cái tên này đến với những đứa con trong tương lai của mình. Mong rằng cậu cũng sẽ như vậy.</p>
+                </div>
+
+                <div class="page">
+                    <p>Xin lỗi vì thiệp năm mới này chỉ toàn những nội dung tiêu cực. </p>
+                    
+                    <p>Mình chúc cậu, đường xa không mỏi, tâm như gương sáng, chân cứng đá mềm. Chúc cậu vạn dặm bình yên.</p>
+                </div>
             </div>
+
+            <div class="pagination">
+                <button class="page-btn" id="prevBtn" onclick="changePage(-1)">&#8592; Trước</button>
+                <span class="page-indicator" id="pageIndicator">1 / 7</span>
+                <button class="page-btn" id="nextBtn" onclick="changePage(1)">Sau &#8594;</button>
+            </div>
+
             <div class="card-signature">
-                - Tên của cậu -
+                - sora -
             </div>
         </div>
     </div>
 
     <script>
+        // Xử lý mở thiệp và phát nhạc
         function openCard() {
             var music = document.getElementById("bg-music");
+            
+            music.addEventListener('ended', function() {
+                this.currentTime = 0;
+                this.play();
+            }, false);
+
             music.play();
 
             var overlay = document.getElementById("overlay");
@@ -155,6 +316,42 @@
             var card = document.getElementById("myCard");
             card.classList.add("show-card");
         }
+
+        // --- Xử lý logic Lật Trang ---
+        let currentPage = 0;
+        const pages = document.querySelectorAll('.page');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageIndicator = document.getElementById('pageIndicator');
+
+        function updatePagination() {
+            // Hiện trang tương ứng, ẩn các trang khác
+            pages.forEach((page, index) => {
+                if (index === currentPage) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            // Cập nhật số trang
+            pageIndicator.innerText = `${currentPage + 1} / ${pages.length}`;
+
+            // Bật/tắt nút Nếu đang ở trang đầu hoặc cuối
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage === pages.length - 1;
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            updatePagination();
+            
+            // Dòng code để tự động cuộn lên đầu mỗi khi chuyển trang
+            document.querySelector('.card-content').scrollTop = 0;
+        }
+
+        // Khởi tạo trang ban đầu
+        updatePagination();
     </script>
 
 </body>
