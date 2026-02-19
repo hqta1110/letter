@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi một người đặc biệt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fdf1e4 0%, #f3e0d8 100%);
+            font-family: 'Lora', serif;
+            color: #4a3b32;
+            overflow: hidden;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #fdf1e4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, visibility 1s;
+        }
+
+        .open-btn {
+            background-color: #b06d51;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-family: 'Playfair Display', serif;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(176, 109, 81, 0.3);
+            transition: transform 0.3s ease, background-color 0.3s;
+        }
+
+        .open-btn:hover {
+            background-color: #985b42;
+            transform: scale(1.05);
+        }
+
+        .card-container {
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.5s ease 0.5s, transform 1.5s ease 0.5s;
+        }
+
+        .card {
+            background-color: #fcfaf8;
+            border-radius: 12px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 35px rgba(138, 115, 102, 0.15);
+            text-align: center;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 1px solid rgba(210, 180, 160, 0.5);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #b06d51;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-content {
+            font-size: 16px;
+            line-height: 1.8;
+            text-align: left;
+            margin-bottom: 30px;
+            color: #5c4d44;
+            padding: 0 10px;
+        }
+
+        .card-content p {
+            margin-bottom: 15px;
+        }
+
+        .card-signature {
+            font-style: italic;
+            text-align: right;
+            font-weight: 600;
+            color: #b06d51;
+            margin-right: 20px;
+        }
+
+        .show-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <button class="open-btn" onclick="openCard()">Mở thiệp</button>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="nhac-nen.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="card-container" id="myCard">
+        <div class="card">
+            <h1 class="card-title">Gửi cậu,</h1>
+            <div class="card-content">
+                <p>Cậu có thể thay thế đoạn văn bản này bằng những lời mà cậu muốn gửi gắm. Tấm thiệp này được thiết kế với tone màu ấm áp để mang lại cảm giác bình yên.</p>
+                <p>Đừng quên bật âm thanh để lắng nghe giai điệu này nhé. Chúc cậu một ngày thật nhiều niềm vui và sự dịu dàng.</p>
+            </div>
+            <div class="card-signature">
+                - Tên của cậu -
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openCard() {
+            var music = document.getElementById("bg-music");
+            music.play();
+
+            var overlay = document.getElementById("overlay");
+            overlay.style.opacity = '0';
+            setTimeout(function() {
+                overlay.style.visibility = 'hidden';
+            }, 1000);
+
+            var card = document.getElementById("myCard");
+            card.classList.add("show-card");
+        }
+    </script>
+
+</body>
+</html>
